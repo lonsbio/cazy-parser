@@ -130,9 +130,16 @@ def main():
 				page_index_list = soup.findAll(name = 'a', attrs={'class':'lien_pagination'})
 				# page_list = ['http://www.cazy.org/' + str(l['href']) for l in page_index_list] # deprecated
 				if bool(page_index_list):
+					
+					#Try taxonomic pages first
 					#example format: GH1_archaea.html?debut_TAXO=100#pagination_TAXO
-					first_page_idx = int(page_index_list[0]['href'].split('debut_TAXO=')[-1].split('#')[0]) # be careful with this
-					last_page_idx = int(page_index_list[-2]['href'].split('debut_TAXO=')[-1].split('#')[0]) # be careful with this
+					try:
+						first_page_idx = int(page_index_list[0]['href'].split('debut_TAXO=')[-1].split('#')[0]) # be careful with this
+						last_page_idx = int(page_index_list[-2]['href'].split('debut_TAXO=')[-1].split('#')[0]) # be careful with this
+
+					except ValueError:
+						first_page_idx = int(page_index_list[0]['href'].split('debut_FUNC=')[-1].split('#')[0]) # be careful with this
+						last_page_idx = int(page_index_list[-2]['href'].split('debut_FUNC=')[-1].split('#')[0]) # be careful with this
 
 					# generate page_list
 					page_list = []
